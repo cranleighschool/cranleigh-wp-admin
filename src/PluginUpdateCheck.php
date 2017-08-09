@@ -25,6 +25,6 @@ class PluginUpdateCheck
 		/* Add in option form for setting auth token*/
 		//$updateChecker->setAuthentication(GITHUB_AUTH_TOKEN);
 
-		$updateChecker->setBranch('develop');
+		$updateChecker->setBranch('master');
 	}
 }
