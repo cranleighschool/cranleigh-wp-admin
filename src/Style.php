@@ -9,7 +9,8 @@ class Style {
 	}
 
 	public function cranleigh_style_admin_toolbar() {
-		wp_enqueue_style("cranleigh_font_css", plugins_url('style.css', dirname(__FILE__)));
+		wp_enqueue_style("cranleigh-wp-admin", plugins_url('style.css', dirname(__FILE__)));
+		wp_enqueue_style('cranfont', '//cdn.cranleigh.org/cranfont/style.css');
 	}
 
 }
