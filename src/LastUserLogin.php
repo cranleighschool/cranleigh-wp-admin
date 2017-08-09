@@ -4,6 +4,8 @@ namespace FredBradley\CranleighWPAdmin;
 
 class LastUserLogin {
 
+	public $time_to_keep = 5; //Minutes
+
 	public function __construct(){
 		// Activation Hook
 		register_activation_hook( __FILE__, array($this, 'rk_activation'));
@@ -24,8 +26,13 @@ class LastUserLogin {
 
 		add_action('admin_init', array($this, 'user_online_update'), 999);
 
+		$this->widget();
 
 
+	}
+
+	public function widget() {
+		return new OnlineUsersWidget($this->time_to_keep);
 	}
 
 
@@ -65,7 +72,7 @@ class LastUserLogin {
 	 **/
 	public function cs_last_login( $user_login ) {
 		$user = get_user_by( 'login', $user_login );
-		update_user_meta( $user->ID, 'wp-last-login', time() );
+		update_user_meta( $user->ID, 'wp-last-login', current_time('timestamp') );
 	}
 
 	/**
@@ -154,17 +161,17 @@ class LastUserLogin {
 
 			$user = wp_get_current_user();
 			// echo '<!-- '.$user->ID.' -->';
-			if (isset($logged_in_users[$user->ID]) && $logged_in_users[$user->ID] > (time() - 1*60)):
+			if (isset($logged_in_users[$user->ID]) && $logged_in_users[$user->ID] > (current_time('timestamp') - ($this->time_to_keep - 1) * MINUTE_IN_SECONDS)):
 				// Do nothing
 				foreach ($logged_in_users as $user_id => $value):
-					if ($value < (time()-2*60)):
+					if ($value < (current_time('timestamp') - ( $this->time_to_keep * MINUTE_IN_SECONDS ) ) ):
 						unset($logged_in_users[$user_id]);
 					endif;
-				set_site_transient("CS_online_status", $logged_in_users, (2*60));
-			endforeach;
+					set_site_transient("CS_online_status", $logged_in_users, ($this->time_to_keep * MINUTE_IN_SECONDS));
+				endforeach;
 			else:
-				$logged_in_users[$user->ID] = time();
-			set_site_transient('CS_online_status', $logged_in_users, (2*60));
+				$logged_in_users[$user->ID] = current_time('timestamp');
+				set_site_transient('CS_online_status', $logged_in_users, ($this->time_to_keep * MINUTE_IN_SECONDS));
 			endif;
 		endif;
 	}

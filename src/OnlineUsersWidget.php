@@ -6,7 +6,8 @@ use WP_User_Query;
 
 class OnlineUsersWidget {
 
-	public function __construct() {
+	public function __construct(int $time_to_keep) {
+		$this->time_to_keep = $time_to_keep;
 
 		add_action( 'wp_dashboard_setup', [ $this, 'add_widget' ], 109999 );
 		add_action( 'wp_network_dashboard_setup', [ $this, 'cs_add_network_dashboard_widgets' ] );
@@ -30,7 +31,7 @@ class OnlineUsersWidget {
 
 		wp_add_dashboard_widget(
 			'cs_users_online_widget',
-			'Online Across the Network',
+			'Online Users Across the Network',
 			[ $this, 'cs_show_users_online_widget' ]
 		);
 	}
@@ -39,12 +40,11 @@ class OnlineUsersWidget {
 
 		$logged_in_users = get_site_transient( 'CS_online_status' );
 		if ( ! empty( $logged_in_users ) ):
-			echo "<p>The following users have been logged on within the last 2 minutes:</p>";
+			echo "<p>The following users have been logged on within the last ".$this->time_to_keep." minutes:</p>";
 			echo "<ul>";
 			foreach ( $logged_in_users as $key => $value ):
 				$user     = get_user_by( 'id', $key );
-				$timezone = date_default_timezone_get();
-				date_default_timezone_set( "Europe/London" );
+
 				echo "<li>" . $user->display_name . " (<a href=\"" . get_edit_user_link( $user->ID ) . "\">" . $user->user_email . "</a>) (" . date( 'g:i:sa',
 						$value ) . ")</li>";
 			endforeach;

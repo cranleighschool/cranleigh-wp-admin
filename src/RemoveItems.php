@@ -4,16 +4,20 @@ namespace FredBradley\CranleighWPAdmin;
 
 class RemoveItems {
 	public function __construct() {
+		define( 'DISALLOW_FILE_EDIT', true );
+
 		add_action( 'wp_dashboard_setup', array($this,'remove_dash_widgets'), 99999);
 		add_filter('gettext', array($this,'howdy_message'), 10, 3);
 		add_action("admin_bar_menu", array($this,'remove_wp_logo'), 9999999999);
 		add_action( 'admin_head', array($this,'hide_update_notice_to_all_but_admin_users'), 1 );
 		add_action('admin_head', array($this,'hide_help'));
 		add_action('admin_bar_menu', array($this,'my_admin_bar_menu'), 9999);
+		add_action('wp_network_dashboard_setup', array($this, 'remove_dash_widgets'),999999);
 	}
 
 	public function remove_dash_widgets() {
 		global $wp_meta_boxes;
+		unset($wp_meta_boxes['dashboard-network']['side']['core']['dashboard_primary']);
 		unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']); // Quick Draft
 		unset($wp_meta_boxes['dashboard']['normal']['core']['photocrati_admin_dashboard_widget']);
 		unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);

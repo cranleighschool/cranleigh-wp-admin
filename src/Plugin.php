@@ -85,9 +85,8 @@ class Plugin {
 	 */
 	public function loadOnlineUserWidget() {
 
-		$load = new LastUserLogin();
+		return new LastUserLogin();
 
-		return new OnlineUsersWidget();
 	}
 
 	/**
