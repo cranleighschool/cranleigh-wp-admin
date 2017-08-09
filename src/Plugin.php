@@ -18,8 +18,6 @@ class Plugin {
 
 		$this->setPluginUri( plugins_url( '/', dirname( __FILE__ ) ) );
 
-		new PluginUpdateCheck("cranleigh-wp-admin");
-
 	}
 
 	/**

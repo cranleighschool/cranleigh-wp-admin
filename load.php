@@ -16,6 +16,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
+$updates = new PluginUpdateCheck("cranleigh-wp-admin");
+
 $plugin = new Plugin();
 
 $plugin->loadRemoves();

@@ -51,6 +51,13 @@ class RemoveItems {
 
 	}
 
+	/**
+	 * @param $translated_text
+	 * @param $text
+	 * @param $domain
+	 *
+	 * @return mixed
+	 */
 	public function howdy_message($translated_text, $text, $domain) {
 		$new_message = str_replace('Howdy, ', '', $text);
 
@@ -58,6 +65,9 @@ class RemoveItems {
 	}
 
 
+	/**
+	 * @param $wp_admin_bar
+	 */
 	public function remove_wp_logo($wp_admin_bar) {
 		$wp_admin_bar->remove_node('ngg-menu');
 		$wp_admin_bar->remove_node('wpseo-menu');
@@ -71,10 +81,14 @@ class RemoveItems {
 	        remove_action( 'admin_notices', 'update_nag', 3 );
 	    }
 	}
+
+	/**
+	 *
+	 */
 	public function hide_help() {
-	    echo '<style type="text/css">
+	    echo "<style type=\"text/css\">
 	            #contextual-help-link-wrap { display: none !important; }
-	          </style>';
+	          </style>";
 	}
 
 
