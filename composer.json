@@ -1,0 +1,20 @@
+{
+    "name": "fredbradley/cranleigh-wp-admin",
+    "description": "Creates a couple of dashboard widgets, and tidies default Wordpress guff away to a nice tidy admin theme display",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fred Bradley",
+            "email": "hello@fredbradley.co.uk"
+        }
+    ],
+    "autoload": {
+	    "psr-4": {
+		    "FredBradley\\CranleighWPAdmin\\": "src"
+	    }
+    },
+    "require": {
+	    "yahnis-elsts/plugin-update-checker": "^4.2"
+    }
+}
+
