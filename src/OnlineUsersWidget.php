@@ -53,7 +53,7 @@ class OnlineUsersWidget {
 			$user_args = [
 				"meta_key"     => "wp-last-login",
 				"meta_compare" => ">",
-				"meta_value"   => '0',
+				"meta_value"   => (current_time('timestamp') - (5 * WEEK_IN_SECONDS)),
 				"count_total"  => true,
 				"number"       => 1000,
 				"fields"       => [ "ID", "user_login", "display_name", "user_email" ],
