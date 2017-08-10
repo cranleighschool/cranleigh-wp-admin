@@ -3,10 +3,11 @@
 Plugin Name: Cranleigh WP Admin
 Plugin URI: https://www.github.com/cranleighschool/
 Description: Creates a couple of dashboard widgets, and tidies default Wordpress guff away to a nice tidy admin theme display
-Version: 1.5
+Version: 1.5.1
 Author: Fred Bradley <hello@fredbradley.co.uk>
 Author URI: https://www.fredbradley.co.uk
 License: MIT
+Network: true
 */
 
 namespace FredBradley\CranleighWPAdmin;
