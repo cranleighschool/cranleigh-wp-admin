@@ -109,7 +109,7 @@ class OnlineUsersWidget {
 		$periods = [ "second", "minute", "hour", "day", "week", "month", "year", "decade" ];
 		$lengths = [ "60", "60", "24", "7", "4.35", "12", "10" ];
 
-		$now        = time();
+		$now        = current_time('timestamp');
 		$difference = $now - $time;
 		$tense      = "ago";
 
