@@ -42,14 +42,16 @@ class RemoveItems {
 		if ( !is_admin_bar_showing() )
 			return;
 
-		$wp_admin_bar->add_menu(
-			array(
-				'id' => 'my-sites',
-				'title' => __( 'Sites'),
-				'href' => FALSE,
-				'meta' => array("class" => "cranleigh-icon icon-cranleigh-crest")
-			)
-		);
+		if (is_multisite()) {
+			$wp_admin_bar->add_menu(
+				array(
+					'id' => 'my-sites',
+					'title' => __( 'Sites'),
+					'href' => FALSE,
+					'meta' => array("class" => "cranleigh-icon icon-cranleigh-crest")
+				)
+			);
+		}
 
 
 
