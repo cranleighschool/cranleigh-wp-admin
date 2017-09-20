@@ -18,6 +18,8 @@ class Plugin {
 
 		$this->setPluginUri( plugins_url( '/', dirname( __FILE__ ) ) );
 
+		add_filter( 'auto_update_plugin', '__return_false' );
+		add_filter( 'auto_update_theme', '__return_false' );
 	}
 
 	/**
