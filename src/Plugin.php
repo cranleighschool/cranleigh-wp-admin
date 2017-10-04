@@ -44,7 +44,12 @@ class Plugin {
 	 * @return string
 	 */
 	public function getPluginImageURI( string $image = null ) {
+		$http = stripos($image, "http");
+		$https = stripos($image, "https");
 
+		if ($http !== false || $https !== false) {
+			return $image;
+		}
 		if ( $image !== null ) {
 			return $this->plugin_uri . "images/" . $image;
 		}
