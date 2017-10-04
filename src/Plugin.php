@@ -102,6 +102,8 @@ class Plugin {
 			$load = new SiteSpecific\SeniorSchool();
 		} elseif ( strpos( $url, ".cranprep.org" ) ) {
 			$load = new SiteSpecific\PrepSchool();
+		} elseif ( strpos ($url, ".awesomebookawards.com" ) ) {
+			$load = new SiteSpecific\AwesomeBookAwards();
 		} elseif ( strpos( $url, ".cranleigh.ae" ) ) {
 			$load = new SiteSpecific\AbuDhabi();
 		} elseif ( strpos( $url, ".ocsociety.org" ) || strpos( $url, "club.org" ) || strpos( $url, "club.com" ) ) {
