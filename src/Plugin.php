@@ -96,6 +96,12 @@ class Plugin {
 
 	}
 
+	public function loadDownloadStatsWidget() {
+
+		return new DownloadStats();
+
+	}
+
 	/**
 	 * @return \FredBradley\CranleighWPAdmin\SiteSpecific\AbuDhabi|\FredBradley\CranleighWPAdmin\SiteSpecific\OCSociety|\FredBradley\CranleighWPAdmin\SiteSpecific\PrepSchool|\FredBradley\CranleighWPAdmin\SiteSpecific\SeniorSchool|null
 	 */
