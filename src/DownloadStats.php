@@ -46,17 +46,27 @@ class DownloadStats {
 		} elseif ($difference == 0) {
 			return '<span>'.$difference.'</span>';
 		} else {
-			return '<span style="color:red;">-'.$difference.'</span>';
+			return '<span style="color:red;">'.$difference.'</span>';
 		}
 	}
 
 	public function cs_show_dlm_download_stats_widget() {
 		global $wpdb;
+
+		$limit = 20;
+
 		$month = $wpdb->get_row("SELECT MONTHNAME(CURRENT_DATE - INTERVAL 1 MONTH) as curr_month, MONTHNAME(CURRENT_DATE - INTERVAL 2 MONTH) as prev_month");
 
+		$downloads = $wpdb->get_results("
+			SELECT 
+				download_id
+				,sum(case when (MONTH(download_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND download_status='completed' ) then 1 else 0 end) as curr_month
+				,sum(case when (MONTH(download_date) = MONTH(CURRENT_DATE - INTERVAL 2 MONTH) AND download_status='completed' ) then 1 else 0 end) as prev_month
+			FROM {$wpdb->prefix}download_log
+			GROUP BY download_id
+			ORDER BY curr_month DESC
+			LIMIT $limit");
 
-
-		$downloads = $wpdb->get_results("SELECT download_id,sum(case when (MONTH(last_month.download_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND last_month.download_status='completed' ) then 1 else 0 end) as curr_month,sum(case when (MONTH(last_month.download_date) = MONTH(CURRENT_DATE - INTERVAL 2 MONTH) AND last_month.download_status='completed' ) then 1 else 0 end) as prev_month from {$wpdb->prefix}download_log as last_month group by download_id");
 		echo '<p><strong>Showing all download logs for '.$month->curr_month.':</strong></p>';
 		echo '<table class="table">';
 		echo '<thead style="font-weight: bolder">';
