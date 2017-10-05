@@ -68,7 +68,7 @@ class DownloadStats {
 			LIMIT $limit");
 
 		echo '<p><strong>Showing all download logs for '.$month->curr_month.':</strong></p>';
-		echo '<table class="table">';
+		echo '<table class="table" style="display:block;max-height:375px;overflow-y: scroll;">';
 		echo '<thead style="font-weight: bolder">';
 		echo '<td>Item</td>';
 		echo '<td>'.$month->curr_month.'</td>';
@@ -90,6 +90,15 @@ class DownloadStats {
 			$total['curr_month'] = $total['curr_month'] + $download->curr_month;
 			$total['prev_month'] = $total['prev_month'] + $download->prev_month;
 		endforeach;
+		echo '</table>';
+		echo '<hr />';
+		echo '<table>';
+		echo '<thead style="font-weight: bolder">';
+		echo '<td></td>';
+		echo '<td>'.$month->curr_month.'</td>';
+		echo '<td>'.$month->prev_month.'</td>';
+		echo '<td>Diff</td>';
+		echo '</thead>';
 		echo '<tfoot style="font-style:italic;">';
 		echo '<td><strong>Total Downloads</strong></td>';
 		echo '<td style="text-align: center"><code>'.$total['curr_month'].'</code></td>';
