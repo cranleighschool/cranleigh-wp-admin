@@ -69,9 +69,9 @@ class DownloadStats {
 		echo '<table class="table" style="display:block;max-height:375px;overflow-y: scroll;">';
 		echo '<thead style="font-weight: bolder">';
 		echo '<td>Item</td>';
-		echo '<td>'.$month->curr_month.'</td>';
-		echo '<td>'.$month->prev_month.'</td>';
-		echo '<td>Diff</td>';
+		echo '<td style="text-align: center">'.$month->curr_month.'</td>';
+//		echo '<td style="text-align: center">'.$month->prev_month.'</td>';
+		echo '<td style="text-align:center">Diff ('.substr($month->prev_month, 0, 3).')</td>';
 		echo '</thead>';
 		$total = [
 			"curr_month" => 0,
@@ -82,7 +82,7 @@ class DownloadStats {
 			echo '<tr>';
 			echo '<td><a href="'.get_edit_post_link($download->download_id).'">'.$post->post_title.'</a></td>';
 			echo '<td style="text-align: center"><code>'.$download->curr_month.'</code></td>';
-			echo '<td style="text-align: center"><code>'.$download->prev_month.'</code></td>';
+		//	echo '<td style="text-align: center"><code>'.$download->prev_month.'</code></td>';
 			echo '<td style="text-align: center"><code>'.$this->getDifference($download->curr_month, $download->prev_month, true).'</code></td>';
 			echo '</tr>';
 			$total['curr_month'] = $total['curr_month'] + $download->curr_month;
