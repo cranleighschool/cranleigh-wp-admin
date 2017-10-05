@@ -53,8 +53,6 @@ class DownloadStats {
 	public function cs_show_dlm_download_stats_widget() {
 		global $wpdb;
 
-		$limit = 20;
-
 		$month = $wpdb->get_row("SELECT MONTHNAME(CURRENT_DATE - INTERVAL 1 MONTH) as curr_month, MONTHNAME(CURRENT_DATE - INTERVAL 2 MONTH) as prev_month");
 
 		$downloads = $wpdb->get_results("
@@ -65,7 +63,7 @@ class DownloadStats {
 			FROM {$wpdb->prefix}download_log
 			GROUP BY download_id
 			ORDER BY curr_month DESC
-			LIMIT $limit");
+		");
 
 		echo '<p><strong>Showing all download logs for '.$month->curr_month.':</strong></p>';
 		echo '<table class="table" style="display:block;max-height:375px;overflow-y: scroll;">';
