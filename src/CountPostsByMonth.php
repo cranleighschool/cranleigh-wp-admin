@@ -25,30 +25,42 @@ class CountPostsByMonth {
 	 * This in turn calls the `add_meta_box` function IF Download monitor is found as an active plugin
 	 */
 	public function add_widget() {
-
-			add_meta_box(
-				'cs_count_posts_by_month',
-				"Posts by Month",
-				[ $this, 'the_widget' ],
-				'dashboard',
-				'side',
-				'high'
-			);
-
-
+		wp_add_dashboard_widget(
+			'cs_count_posts_by_month',
+			"Posts by Month",
+			[ $this, 'the_widget' ],
+			[ $this, 'configure_widget']
+		);
 	}
-	private function count_posts_from_month($year, $month) {
-		global $wpdb;
+	public function configure_widget( $widget_id ) {
 
-		$query = "SELECT MONTH(post_date) AS post_month, YEAR(post_date) as post_year, count(ID) AS post_count from"
-				. " {$wpdb->posts} WHERE post_type = 'post' AND post_status = 'publish' AND YEAR(post_date) = %d"
-				. " GROUP BY post_month";
+		// Get widget options
+		$cs_wp_admin_widget_options = $this->howManyMonthsCountBack();
 
-		return $wpdb->get_results( $wpdb->prepare( $query, $year));
+		// Update widget options
+		if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['cs_wp_admin_count_post_hidden']) ) {
+			update_option( 'cs_wp_admin_monthly_post_count_back', $_POST['cs_wp_admin_count_post_monthsback'] );
+		}
+?>
+		<p>
+			<label for="cs_wp_admin_post_count"><?php _e('How Many Months Back to you want to search', 'cranleigh-2016'); ?></label>
+			<input class="widefat" id="cs_wp_admin_post_count" name="cs_wp_admin_count_post_monthsback" type="number" value="<?php if( isset($cs_wp_admin_widget_options) ) echo $cs_wp_admin_widget_options; ?>" />
+		</p>
+
+		<input name="cs_wp_admin_count_post_hidden" type="hidden" value="1" />
+		<?php
+	}
+	public function howManyMonthsCountBack() {
+		if ( !$monthsback = get_option( 'cs_wp_admin_monthly_post_count_back' ) )
+			$monthsback = 12;
+
+		return $monthsback;
 	}
 	public function the_widget() {
 		global $wpdb;
-		$result = $this->timed_archives_count();
+
+		$result = $this->fb_timed_archives_count($this->howManyMonthsCountBack());
+		echo "<p>A table showing posts per month for the last {$this->howManyMonthsCountBack()} months.</p>";
 		echo "<table cellpadding='5' style='width:100%;border-collapse: collapse;'>";
 		echo "<thead style='border-bottom: double 2px black'>";
 		echo "<th style='text-align: left'>Month</th>";
@@ -82,47 +94,25 @@ class CountPostsByMonth {
 		return date_create_from_format('!m', $number % 12)->format('F');
 	}
 
-	/**
-	 * Generate Dated Archive Post Count
-	 * -----------------------------------------------------------------------------
-	 * Generate the initial count of posts by year and month, and save it under the
-	 * given options key. Generating this can be resource intensive, so it makes
-	 * sense to store this as a variable.
-	 *
-	 * See: https://wordpress.stackexchange.com/questions/60859/post-count-per-day-month-year-since-blog-began
-	 *
-	 * @param   string      $option_name        Options key for the post count.
-	 * @return  array       $counts             Returned counts for the
-	 */
-
-	function timed_archives_count() {
+	function fb_timed_archives_count($monthsback=6) {
 		global $wpdb;
-
-		/* Get the year of the first post:
-		 * -------------------------------------------------------------------------
-		 * 1. Get 1 post in ascending order. This is the first post on the blog.
-		 * 2. Extract the date of the post.
-		 * 3. Parse that down to the year alone. */
-		$from_date = preg_replace('/-.*/', '', get_posts(array(
-			'posts_per_page' => 1,
-			'order' => 'ASC'
-		))[0]->post_date);
-
-		for ($i = date('Y'); $i >= $from_date; $i--) {
-			$counts[$i] = array();
-
+			$month=[];
+			$counts=[];
 			$month = $wpdb->get_results($wpdb->prepare(
-				"SELECT MONTH(post_date) AS post_month, count(ID) AS post_count from"
-				. " {$wpdb->posts} WHERE post_type = 'post' AND post_status = 'publish' AND YEAR(post_date) = %d"
-				. " GROUP BY post_month;",
-				$i
-			), OBJECT_K);
+				"SELECT "
+				. "MONTH(post_date) AS post_month,"
+				. "YEAR(post_date) as post_year,"
+				. "count(ID) AS post_count from"
+				. " {$wpdb->posts} WHERE post_type = 'post' AND post_status = 'publish'"
+				. " AND DATE(post_date) > DATE_SUB(now(), INTERVAL %d MONTH)"
+				. " GROUP BY post_year,post_month", $monthsback));
 
 			foreach ($month as $m) {
-				$counts[$i][$this->get_month_from_number($m->post_month, $i)] = $m->post_count;
+				$counts[][$this->get_month_from_number($m->post_month, $m->post_year)] = $m->post_count;
 			}
-		}
+
 
 		return $counts;
 	}
+
 }
