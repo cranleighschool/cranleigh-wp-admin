@@ -102,6 +102,10 @@ class Plugin {
 
 	}
 
+	public function loadPostCountWidget() {
+		return new CountPostsByMonth();
+	}
+
 	/**
 	 * @return \FredBradley\CranleighWPAdmin\SiteSpecific\AbuDhabi|\FredBradley\CranleighWPAdmin\SiteSpecific\OCSociety|\FredBradley\CranleighWPAdmin\SiteSpecific\PrepSchool|\FredBradley\CranleighWPAdmin\SiteSpecific\SeniorSchool|null
 	 */

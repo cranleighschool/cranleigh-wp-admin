@@ -8,12 +8,26 @@
 
 namespace FredBradley\CranleighWPAdmin;
 
+/**
+ * Class DownloadStats
+ *
+ * @package FredBradley\CranleighWPAdmin
+ */
 class DownloadStats {
 
+	/**
+	 * DownloadStats constructor.
+	 */
 	public function __construct() {
 		add_action( 'wp_dashboard_setup', [ $this, 'add_widget' ], 109999 );
 	}
 
+	/**
+	 * Function: add_widget
+	 *
+	 * This is the function that is called in the constructor.
+	 * This in turn calls the `add_meta_box` function IF Download monitor is found as an active plugin
+	 */
 	public function add_widget() {
 		if (is_plugin_active('download-monitor/download-monitor.php')) {
 
@@ -29,6 +43,18 @@ class DownloadStats {
 		}
 	}
 
+	/**
+	 * Function: getDifference
+	 *
+	 * This works out how the difference between this month and last month.
+	 * (Yes I developed this function in September, and didn't change the variable names!)
+	 *
+	 * @param int  $september
+	 * @param int  $august
+	 * @param bool $format
+	 *
+	 * @return int|string
+	 */
 	private function getDifference(int $september, int $august, $format = false) {
 
 		$difference = $september - $august;
@@ -50,11 +76,20 @@ class DownloadStats {
 		}
 	}
 
+	/**
+	 * Function: cs_show_dlm_download_stats_widget
+	 *
+	 * This is the function that actually display content on the dashboard widget.
+	 * For now, everything is written all in this function (except the `getDifference` function)
+	 * For clarity I could separate this out later.
+	 */
 	public function cs_show_dlm_download_stats_widget() {
 		global $wpdb;
 
+		// Get the names of the month from SQL rather than PHP as that's what we'll be using in a query further down.
 		$month = $wpdb->get_row("SELECT MONTHNAME(CURRENT_DATE - INTERVAL 1 MONTH) as curr_month, MONTHNAME(CURRENT_DATE - INTERVAL 2 MONTH) as prev_month");
 
+		// Do the SQL query on Wordpress database.
 		$downloads = $wpdb->get_results("
 			SELECT 
 				download_id
@@ -73,10 +108,13 @@ class DownloadStats {
 //		echo '<td style="text-align: center">'.$month->prev_month.'</td>';
 		echo '<td style="text-align:center">Diff ('.substr($month->prev_month, 0, 3).')</td>';
 		echo '</thead>';
+
+		// Set current totals to Zero!
 		$total = [
 			"curr_month" => 0,
 			"prev_month" => 0
 		];
+
 		foreach ($downloads as $download):
 			$post = get_post($download->download_id);
 			echo '<tr>';
