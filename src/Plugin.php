@@ -123,6 +123,8 @@ class Plugin {
 			$load = new SiteSpecific\AbuDhabi();
 		} elseif ( strpos( $url, ".ocsociety.org" ) || strpos( $url, "club.org" ) || strpos( $url, "club.com" ) ) {
 			$load = new SiteSpecific\OCSociety();
+		} elseif ( strpos( $url, ".cranleighactivities.org" ) ) {
+			$load = new SiteSpecific\Activities();
 		} else {
 			// Default
 			$load = null;
@@ -130,6 +132,5 @@ class Plugin {
 		return $load;
 
 	}
-
 
 }
