@@ -146,7 +146,7 @@ class LastUserLogin {
 	 **/
 	public function rk_pre_user_query($user_search) {
 		global $wpdb,$current_screen;
-		if ( 'users' != $current_screen->id ) return;
+		if (isset($current_screen->id) && 'users' != $current_screen->id ) return;
 		$vars = $user_search->query_vars;
 		if('wp-last-login' == $vars['orderby']){
 			$user_search->query_from .= " INNER JOIN {$wpdb->usermeta} m1 ON {$wpdb->users}.ID=m1.user_id AND (m1.meta_key='wp-last-login')";
