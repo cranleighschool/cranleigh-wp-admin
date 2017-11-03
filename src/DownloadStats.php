@@ -120,6 +120,9 @@ class DownloadStats {
 
 			foreach ( $downloads as $download ):
 				$post = get_post( $download->download_id );
+				if (!is_object($post)) {
+					error_log("Could not find Post for Download: ".$download->download_id);
+				}
 				echo '<tr>';
 				echo '<td>';
 				echo '<a href="' . get_edit_post_link( $download->download_id ) . '">';
