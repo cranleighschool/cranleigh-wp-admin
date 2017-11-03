@@ -121,7 +121,11 @@ class DownloadStats {
 			foreach ( $downloads as $download ):
 				$post = get_post( $download->download_id );
 				echo '<tr>';
-				echo '<td><a href="' . get_edit_post_link( $download->download_id ) . '">' . $post->post_title . '</a></td>';
+				echo '<td>';
+				echo '<a href="' . get_edit_post_link( $download->download_id ) . '">';
+				echo $post->post_title;
+				echo '</a>';
+				echo '</td>';
 				echo '<td style="text-align: center"><code>' . $download->curr_month . '</code></td>';
 				//	echo '<td style="text-align: center"><code>'.$download->prev_month.'</code></td>';
 				echo '<td style="text-align: center"><code>' . $this->getDifference( $download->curr_month,
