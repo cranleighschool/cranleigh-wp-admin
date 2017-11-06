@@ -25,12 +25,15 @@ class CountPostsByMonth {
 	 * This in turn calls the `add_meta_box` function IF Download monitor is found as an active plugin
 	 */
 	public function add_widget() {
-		wp_add_dashboard_widget(
-			'cs_count_posts_by_month',
-			"News Posts by Month",
-			[ $this, 'the_widget' ],
-			[ $this, 'configure_widget']
-		);
+		$user = \wp_get_current_user();
+		if ( in_array( 'administrator', (array) $user->roles ) ) {
+			wp_add_dashboard_widget(
+				'cs_count_posts_by_month',
+				"News Posts by Month",
+				[ $this, 'the_widget' ],
+				[ $this, 'configure_widget' ]
+			);
+		}
 	}
 	public function configure_widget( $widget_id ) {
 

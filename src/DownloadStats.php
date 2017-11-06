@@ -29,17 +29,20 @@ class DownloadStats {
 	 * This in turn calls the `add_meta_box` function IF Download monitor is found as an active plugin
 	 */
 	public function add_widget() {
-		if (is_plugin_active('download-monitor/download-monitor.php')) {
+		$user = \wp_get_current_user();
+		if ( in_array( 'administrator', (array) $user->roles ) ) {
+			if ( is_plugin_active( 'download-monitor/download-monitor.php' ) ) {
 
-			add_meta_box(
-				'cs_dlm_download_stats',
-				"Last Month's Download Stats",
-				[ $this, 'cs_show_dlm_download_stats_widget' ],
-				'dashboard',
-				'side',
-				'high'
-			);
+				add_meta_box(
+					'cs_dlm_download_stats',
+					"Last Month's Download Stats",
+					[ $this, 'cs_show_dlm_download_stats_widget' ],
+					'dashboard',
+					'side',
+					'high'
+				);
 
+			}
 		}
 	}
 

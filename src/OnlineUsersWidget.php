@@ -9,31 +9,37 @@ class OnlineUsersWidget {
 	public function __construct(int $time_to_keep) {
 		$this->time_to_keep = $time_to_keep;
 
-		add_action( 'wp_dashboard_setup', [ $this, 'add_widget' ], 109999 );
-		add_action( 'wp_network_dashboard_setup', [ $this, 'cs_add_network_dashboard_widgets' ] );
+
+			//The user has the "author" role
+			add_action( 'wp_dashboard_setup', [ $this, 'add_widget' ], 109999 );
+			add_action( 'wp_network_dashboard_setup', [ $this, 'cs_add_network_dashboard_widgets' ] );
 
 	}
 
 	public function add_widget() {
-
-		add_meta_box(
-			'cs_users_online_widget',
-			'Online Users',
-			[ $this, 'cs_show_users_online_widget' ],
-			'dashboard',
-			'side',
-			'high'
-		);
+		$user = \wp_get_current_user();
+		if ( in_array( 'administrator', (array) $user->roles ) ) {
+			add_meta_box(
+				'cs_users_online_widget',
+				'Online Users',
+				[ $this, 'cs_show_users_online_widget' ],
+				'dashboard',
+				'side',
+				'high'
+			);
+		}
 
 	}
 
 	public function cs_add_network_dashboard_widgets() {
-
-		wp_add_dashboard_widget(
-			'cs_users_online_widget',
-			'Online Users Across the Network',
-			[ $this, 'cs_show_users_online_widget' ]
-		);
+		$user = \wp_get_current_user();
+		if ( in_array( 'administrator', (array) $user->roles ) ) {
+			wp_add_dashboard_widget(
+				'cs_users_online_widget',
+				'Online Users Across the Network',
+				[ $this, 'cs_show_users_online_widget' ]
+			);
+		}
 	}
 
 	public function cs_show_users_online_widget() {
