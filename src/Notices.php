@@ -5,6 +5,7 @@ class Notices {
 	public function __construct() {
 		add_action("admin_notices", array($this,"fb_admin_notice"), 999);
 		add_action("network_admin_notices", array($this, "fb_admin_notice"), 999);
+		add_action("network_admin_notices",  array($this, "my_network_admin_notices"), 1000 );
 	}
 
 	public function fb_admin_notice() {
@@ -18,6 +19,18 @@ class Notices {
 					</div>';
 */
 	}
+
+	public function my_network_admin_notices() {
+		if (strpos(ABSPATH, "wwwdocs/wpnetwork/doc_root")) {
+			$screen = get_current_screen();
+
+			if ( $screen->base = "update-core-network" ) {
+				echo '<div class="error danger"><p><img src="https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif" style="float:right" /><strong>Cranleigh Notice: </strong>Please do not process updates via this system on the <code>cranleigh.org</code> website.</p><p>The updates should be done locally and then pushed using GIT. <a href="https://itwiki.cranleigh.org/books/websites/page/website-2016-project#bkmrk-use-git">More information</a>.</p><p>Please ensure you are on the School internal network to view the contents of the IT Wiki.</p><div style="clear:both"></div></div>';
+
+			}
+		}
+	}
+
 
 
 
