@@ -103,8 +103,7 @@ class DownloadStats {
 					,sum(case when (MONTH(download_date) = MONTH(CURRENT_DATE - INTERVAL 2 MONTH) AND download_status='completed' ) then 1 else 0 end) as prev_month
 				FROM {$wpdb->prefix}download_log
 				GROUP BY download_id
-				ORDER BY curr_month DESC 
-				LIMIT 20
+				ORDER BY curr_month DESC
 			" );
 
 			echo '<p><strong>Showing all download logs for ' . $month->curr_month . ':</strong></p>';
@@ -162,7 +161,7 @@ class DownloadStats {
 
 			$content = ob_get_contents();
 			ob_end_clean();
-			set_transient('cs_download_stats_widget', $content, WEEK_IN_SECONDS);
+			set_transient('cs_download_stats_widget', $content, 2 * WEEK_IN_SECONDS);
 			echo $content;
 		} else {
 			echo get_transient('cs_download_stats_widget');
