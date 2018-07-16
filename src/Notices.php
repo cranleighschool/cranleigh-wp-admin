@@ -21,7 +21,7 @@ class Notices {
 	}
 
 	public function my_network_admin_notices() {
-		if (strpos(ABSPATH, "wwwdocs/wpnetwork/doc_root")) {
+		if (strpos(ABSPATH, "var/www/vhosts/www.cranleigh.org/doc_root")) {
 			$screen = get_current_screen();
 
 			if ( $screen->base = "update-core-network" ) {
