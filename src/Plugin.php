@@ -96,6 +96,10 @@ class Plugin {
 
 	}
 
+	public function loadChangeUserLoginLabel() {
+		return new ChangeUserLoginLabel();
+	}
+
 	public function loadDownloadStatsWidget() {
 
 		return new DownloadStats();
