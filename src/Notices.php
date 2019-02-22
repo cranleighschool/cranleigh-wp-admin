@@ -25,7 +25,7 @@ class Notices {
 			$screen = get_current_screen();
 
 			if ( $screen->base = "update-core-network" ) {
-				echo '<div class="error danger"><p><img src="https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif" style="float:right" /><strong>Cranleigh Notice: </strong>Please do not process updates via this system on the <code>cranleigh.org</code> website.</p><p>The updates should be done locally and then pushed using GIT. <a href="https://itwiki.cranleigh.org/books/websites/page/website-2016-project#bkmrk-use-git">More information</a>.</p><p>Please ensure you are on the School internal network to view the contents of the IT Wiki.</p><div style="clear:both"></div></div>';
+				echo '<div class="error danger"><p><img src="https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif" style="float:right" /><strong>Cranleigh Notice: </strong>Please do not process updates via this system on the <code>cranleigh.org</code> website.</p><p>The updates should be done locally and then pushed using GIT. <a href="https://itwiki.cranleigh.org/books/websites/page/website-2016-project#bkmrk-use-git">More information</a>. <em>With the exception of Database Upgrades</em></p><p>Please ensure you are on the School internal network to view the contents of the IT Wiki.</p><div style="clear:both"></div></div>';
 
 			}
 		}
