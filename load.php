@@ -13,11 +13,11 @@ Network: true
 namespace FredBradley\CranleighWPAdmin;
 
 if ( ! defined( 'WPINC' ) ) {
-    die;
+	die;
 }
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-$updates = new PluginUpdateCheck("cranleigh-wp-admin");
+$updates = new PluginUpdateCheck( "cranleigh-wp-admin" );
 
 $plugin = new Plugin();
 
