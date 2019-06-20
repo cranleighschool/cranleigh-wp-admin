@@ -22,7 +22,7 @@ class ChangeUserLoginLabel {
 			$translated_text = 'Email Address';
 		}
 		if ( $text == '&larr; Back to %s' ) {
-			$translated_text = "Magic Phrase";
+			$translated_text = 'Magic Phrase';
 		}
 
 		return $translated_text;
@@ -30,7 +30,7 @@ class ChangeUserLoginLabel {
 
 	function custom_login_text( $text ) {
 
-		if ( in_array( $GLOBALS[ 'pagenow' ], [ 'wp-login.php', 'wp-register.php' ] ) ) {
+		if ( in_array( $GLOBALS['pagenow'], [ 'wp-login.php', 'wp-register.php' ] ) ) {
 
 			if ( $text == '&larr; Back to %s' ) {
 				$text = '&larr; Back to the %s Website';

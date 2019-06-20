@@ -32,35 +32,34 @@ abstract class Controller {
 		color: #fff !important;
 	}
 	body.login{
-		background-color: '.$this->login_bg_color.';
+		background-color: ' . $this->login_bg_color . ';
 		';
-		if ($this->login_bg_image) {
+		if ( $this->login_bg_image ) {
 			echo '
 
-		background-image: url(\''.$this->plugin->getPluginImageURI($this->login_bg_image).'\');
+		background-image: url(\'' . $this->plugin->getPluginImageURI( $this->login_bg_image ) . '\');
 		background-repeat: no-repeat;
 		background-attachment: scroll;
 		background-position: 0 0;
         ';
-        } // endif
-        echo '
+		} // endif
+		echo '
         }
         ';
 
-
-		if ($this->login_logo) {
+		if ( $this->login_logo ) {
 			echo '.login h1 a {
                 width: 270px;
                 background-size: 270px; 58px;
 			}';
-        	echo 'h1 a {
-        		background-image:url('.$this->plugin->getPluginImageURI($this->login_logo).') !important;
+			echo 'h1 a {
+        		background-image:url(' . $this->plugin->getPluginImageURI( $this->login_logo ) . ') !important;
         	}';
 
-        }
+		}
 
-echo '</style>';
-    }
+		echo '</style>';
+	}
 
 
 }

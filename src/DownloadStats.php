@@ -58,24 +58,24 @@ class DownloadStats {
 	 *
 	 * @return int|string
 	 */
-	private function getDifference(int $september, int $august, $format = false) {
+	private function getDifference( int $september, int $august, $format = false ) {
 
 		$difference = $september - $august;
 
-		if ($format===false) {
+		if ( $format === false ) {
 			return $difference;
 		}
 
-		if ($format==="%") {
-			$difference = $difference."%";
+		if ( $format === '%' ) {
+			$difference = $difference . '%';
 		}
 
-		if ($difference > 0) {
-			return '<span style="color:green;">+'.$difference.'</span>';
-		} elseif ($difference == 0) {
-			return '<span>'.$difference.'</span>';
+		if ( $difference > 0 ) {
+			return '<span style="color:green;">+' . $difference . '</span>';
+		} elseif ( $difference == 0 ) {
+			return '<span>' . $difference . '</span>';
 		} else {
-			return '<span style="color:red;">'.$difference.'</span>';
+			return '<span style="color:red;">' . $difference . '</span>';
 		}
 	}
 
@@ -89,14 +89,15 @@ class DownloadStats {
 	public function cs_show_dlm_download_stats_widget() {
 		global $wpdb;
 
-		if (!get_transient('cs_download_stats_widget')) {
+		if ( ! get_transient( 'cs_download_stats_widget' ) ) {
 			ob_start();
 
 			// Get the names of the month from SQL rather than PHP as that's what we'll be using in a query further down.
-			$month = $wpdb->get_row( "SELECT MONTHNAME(CURRENT_DATE - INTERVAL 1 MONTH) as curr_month, MONTHNAME(CURRENT_DATE - INTERVAL 2 MONTH) as prev_month" );
+			$month = $wpdb->get_row( 'SELECT MONTHNAME(CURRENT_DATE - INTERVAL 1 MONTH) as curr_month, MONTHNAME(CURRENT_DATE - INTERVAL 2 MONTH) as prev_month' );
 
-			// Do the SQL query on Wordpress database.
-			$downloads = $wpdb->get_results( "
+			// Do the SQL query on WordPress database.
+			$downloads = $wpdb->get_results(
+				"
 				SELECT 
 					download_id
 					,sum(case when (MONTH(download_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND download_status='completed' ) then 1 else 0 end) as curr_month
@@ -104,27 +105,28 @@ class DownloadStats {
 				FROM {$wpdb->prefix}download_log
 				GROUP BY download_id
 				ORDER BY curr_month DESC
-			" );
+			"
+			);
 
 			echo '<p><strong>Showing all download logs for ' . $month->curr_month . ':</strong></p>';
 			echo '<table class="table" style="display:block;max-height:375px;overflow-y: scroll;">';
 			echo '<thead style="font-weight: bolder">';
 			echo '<td>Item</td>';
 			echo '<td style="text-align: center">' . $month->curr_month . '</td>';
-			//		echo '<td style="text-align: center">'.$month->prev_month.'</td>';
+			// echo '<td style="text-align: center">'.$month->prev_month.'</td>';
 			echo '<td style="text-align:center">Diff (' . substr( $month->prev_month, 0, 3 ) . ')</td>';
 			echo '</thead>';
 
 			// Set current totals to Zero!
 			$total = [
-				"curr_month" => 0,
-				"prev_month" => 0
+				'curr_month' => 0,
+				'prev_month' => 0,
 			];
 
-			foreach ( $downloads as $download ):
+			foreach ( $downloads as $download ) :
 				$post = get_post( $download->download_id );
-				if (!is_object($post)) {
-					error_log("Could not find Post for Download: ".$download->download_id.", skipping...");
+				if ( ! is_object( $post ) ) {
+					error_log( 'Could not find Post for Download: ' . $download->download_id . ', skipping...' );
 					continue;
 				}
 				echo '<tr>';
@@ -134,12 +136,15 @@ class DownloadStats {
 				echo '</a>';
 				echo '</td>';
 				echo '<td style="text-align: center"><code>' . $download->curr_month . '</code></td>';
-				//	echo '<td style="text-align: center"><code>'.$download->prev_month.'</code></td>';
-				echo '<td style="text-align: center"><code>' . $this->getDifference( $download->curr_month,
-						$download->prev_month, true ) . '</code></td>';
+				// echo '<td style="text-align: center"><code>'.$download->prev_month.'</code></td>';
+				echo '<td style="text-align: center"><code>' . $this->getDifference(
+					$download->curr_month,
+					$download->prev_month,
+					true
+				) . '</code></td>';
 				echo '</tr>';
-				$total[ 'curr_month' ] = $total[ 'curr_month' ] + $download->curr_month;
-				$total[ 'prev_month' ] = $total[ 'prev_month' ] + $download->prev_month;
+				$total['curr_month'] = $total['curr_month'] + $download->curr_month;
+				$total['prev_month'] = $total['prev_month'] + $download->prev_month;
 			endforeach;
 			echo '</table>';
 			echo '<hr />';
@@ -152,19 +157,22 @@ class DownloadStats {
 			echo '</thead>';
 			echo '<tfoot style="font-style:italic;">';
 			echo '<td><strong>Total Downloads</strong></td>';
-			echo '<td style="text-align: center"><code>' . $total[ 'curr_month' ] . '</code></td>';
-			echo '<td style="text-align: center"><code>' . $total[ 'prev_month' ] . '</code></td>';
-			echo '<td style="text-align: center"><code>' . $this->getDifference( $total[ 'curr_month' ],
-					$total[ 'prev_month' ], true ) . '</code></td>';
+			echo '<td style="text-align: center"><code>' . $total['curr_month'] . '</code></td>';
+			echo '<td style="text-align: center"><code>' . $total['prev_month'] . '</code></td>';
+			echo '<td style="text-align: center"><code>' . $this->getDifference(
+				$total['curr_month'],
+				$total['prev_month'],
+				true
+			) . '</code></td>';
 			echo '</tfoot>';
 			echo '</table>';
 
 			$content = ob_get_contents();
 			ob_end_clean();
-			set_transient('cs_download_stats_widget', $content, 2 * WEEK_IN_SECONDS);
+			set_transient( 'cs_download_stats_widget', $content, 2 * WEEK_IN_SECONDS );
 			echo $content;
 		} else {
-			echo get_transient('cs_download_stats_widget');
+			echo get_transient( 'cs_download_stats_widget' );
 		}
 
 	}

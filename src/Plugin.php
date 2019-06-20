@@ -44,14 +44,14 @@ class Plugin {
 	 * @return string
 	 */
 	public function getPluginImageURI( string $image = null ) {
-		$http = stripos($image, "http");
-		$https = stripos($image, "https");
+		$http  = stripos( $image, 'http' );
+		$https = stripos( $image, 'https' );
 
-		if ($http !== false || $https !== false) {
+		if ( $http !== false || $https !== false ) {
 			return $image;
 		}
 		if ( $image !== null ) {
-			return $this->plugin_uri . "images/" . $image;
+			return $this->plugin_uri . 'images/' . $image;
 		}
 	}
 
@@ -117,17 +117,17 @@ class Plugin {
 
 		$url = get_site_url();
 
-		if ( strpos( $url, ".cranleigh.org" ) ) {
+		if ( strpos( $url, '.cranleigh.org' ) ) {
 			$load = new SiteSpecific\SeniorSchool();
-		} elseif ( strpos( $url, ".cranprep.org" ) ) {
+		} elseif ( strpos( $url, '.cranprep.org' ) ) {
 			$load = new SiteSpecific\PrepSchool();
-		} elseif ( strpos ($url, ".awesomebookawards.com" ) ) {
+		} elseif ( strpos( $url, '.awesomebookawards.com' ) ) {
 			$load = new SiteSpecific\AwesomeBookAwards();
-		} elseif ( strpos( $url, ".cranleigh.ae" ) ) {
+		} elseif ( strpos( $url, '.cranleigh.ae' ) ) {
 			$load = new SiteSpecific\AbuDhabi();
-		} elseif ( strpos( $url, ".ocsociety.org" ) || strpos( $url, "club.org" ) || strpos( $url, "club.com" ) ) {
+		} elseif ( strpos( $url, '.ocsociety.org' ) || strpos( $url, 'club.org' ) || strpos( $url, 'club.com' ) ) {
 			$load = new SiteSpecific\OCSociety();
-		} elseif ( strpos( $url, ".cranleighactivities.org" ) ) {
+		} elseif ( strpos( $url, '.cranleighactivities.org' ) ) {
 			$load = new SiteSpecific\Activities();
 		} else {
 			// Default
