@@ -17,7 +17,8 @@
 			try {
 				$this->givePermissionsToPostTypes($this->postTypesToAllow, $role);
 			} catch (\TypeError $exception) {
-				wp_die($exception->getMessage());
+				error_log($exception->getMessage());
+//				wp_die($exception->getMessage());
 			}
 		}
 
