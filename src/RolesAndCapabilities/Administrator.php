@@ -7,7 +7,7 @@
 	class Administrator extends BaseCapabilities
 	{
 		private $postTypesToAllow = [
-			'cranleighmatters', 'faqs', 'headblogpost'
+			'cranleighmatters', 'faqs', 'headblogpost', 'vacancy'
 		];
 
 		public function handle(): void
